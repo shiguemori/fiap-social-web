@@ -1,4 +1,4 @@
-import {CardComent, CardPost} from "./styles";
+import {CardComment, CardPost} from "./styles";
 import imgProfile from "../../assets/profile.png";
 import {useEffect, useState} from "react";
 import {getUser} from "../../services/security";
@@ -11,10 +11,10 @@ function Post({data}) {
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState("");
     const [comment, setComment] = useState("");
-    const toggleComents = () => setShowComments(!showComments);
+    const toggleComments = () => setShowComments(!showComments);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleComentario = (event) => {
+    const handleComment = (event) => {
         setComment(event.target.value);
     };
 
@@ -41,7 +41,7 @@ function Post({data}) {
             const response = await api.get("/answers");
             setComments(response.data);
         } catch (error) {
-            alert("Ops, erro ao buscar os comentários");
+            alert("Ops, erro ao carregar os comentários");
         }
     }
 
@@ -69,20 +69,20 @@ function Post({data}) {
                 </footer>
             </main>
             <footer>
-                <h3 onClick={toggleComents} id="h3_comment" value={filteredComments}>
+                <h3 onClick={toggleComments} id="h3_comment" value={filteredComments}>
                     {filteredComments.length === 0 ? "Seja o primeiro a comentar" :
                         `${filteredComments.length} Comentário${filteredComments.length > 1 ? "s" : ``}`
                     }
                 </h3>
                 {showComments && (
                     <>
-                        <Coment value={comments}
+                        <Comment value={comments}
                                 dataFromParent={Object.values(comments).filter(c => c.QuestionId === data.id)}/>
                     </>
                 )}
                 <div>
-                    <input id="input_comment" type="text" value={comment} onChange={handleComentario}
-                           name="comment" onKeyUp={handleComentario} placeholder="Comente este post"/>
+                    <input id="input_comment" type="text" value={comment} onChange={handleComment}
+                           name="comment" onKeyUp={handleComment} placeholder="Comente este post"/>
                     <button onClick={handleEnviar} disabled={comment.length < 10}>
                         Enviar
                     </button>
@@ -92,16 +92,16 @@ function Post({data}) {
     );
 }
 
-function Coment(data) {
+function Comment(data) {
     return (
         data.dataFromParent.map((comment) =>
-            <CardComent key={comment.id}>
+            <CardComment key={comment.id}>
                 <header>
                     <img src={imgProfile} alt="profile pic"/>
                     <span>{format(new Date(comment.createdAt), "dd/MM/yyyy 'às' hh:mm")}</span>
                 </header>
                 <p>{comment.description}</p>
-            </CardComent>
+            </CardComment>
         )
     );
 }
