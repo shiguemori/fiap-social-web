@@ -29,11 +29,8 @@ function Feed() {
             const response = await api.get("/feed", {
                 params: { page }
             });
-
             setPosts([...posts, ...response.data]);
-
             setPage(page + 1);
-
             setTotalPost(response.headers["x-total-count"]);
         } catch (error) {
             alert(error);
@@ -48,13 +45,12 @@ function Feed() {
 
     const scrollObserver = (e) => {
         const { scrollTop, clientHeight, scrollHeight } = e.target;
-
         if (scrollTop + clientHeight > scrollHeight - 100) {
             loadPosts();
         }
     }
 
-    // if (isLoading) return <div>Carregando...</div>
+    if (isLoading) return <div>Carregando...</div>
 
     return (
         <Container onScroll={scrollObserver}>

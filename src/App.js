@@ -10,14 +10,12 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    //executar o login hard code
     useEffect(() => {
-
         const doSignIn = async () => {
             try {
                 const response = await api.post("/sessions", {
-                    email: api.email,
-                    password: api.password
+                    email: process.env.REACT_APP_EMAIL,
+                    password: process.env.REACT_APP_PASSWORD
                 });
                 signIn(response.data);
             } catch (error) {
@@ -30,7 +28,6 @@ function App() {
         }
 
         doSignIn();
-
     }, []);
 
     return (
